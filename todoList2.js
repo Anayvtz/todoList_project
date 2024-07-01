@@ -10,7 +10,6 @@ document.getElementById("add").addEventListener("click", () => {
 
     let todoArr = localStorage.getItem("todoList");
     if (todoArr == null) {
-
         let arr = [JSON.stringify(todoObj)];
         localStorage.setItem("todoList", JSON.stringify(arr));
     } else {
@@ -77,9 +76,30 @@ function addItem(element) {
             }
         }
     });
+    let btn = document.createElement("button");
+    btn.textContent = "del todo item";
+    btn.addEventListener("click", () => {
+        let todoArr = JSON.parse(localStorage.getItem("todoList"));
+        if (todoArr != null) {
+            let woArr = [];
+            let objArr = todoArr.map(item => JSON.parse(item));
+            objArr.forEach((item) => {
+                if (item.name != element.name) {
+                    woArr.push(item);
+                }
+            });
+            let woStringified = woArr.map(item => JSON.stringify(item));
+            localStorage.setItem("todoList", JSON.stringify(woStringified));
+        }
+        chk.checked = true;
+        li.style.textDecoration = "line-through";
+        element.wasExecuted = "yes";
+
+    })
 
     wrapper.appendChild(li);
     wrapper.appendChild(chk);
+    wrapper.appendChild(btn);
     theList.appendChild(wrapper);
 }
 
